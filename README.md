@@ -41,43 +41,43 @@ My web application for managing and analyzing investment portfolios, including s
 ## Development Phases 
 ### Phase 1: Data Acquisition and Storage
 
-<input type="checkbox" disabled> Identify Data Sources: Research reliable sources for historical stock, gold, crypto, and real estate data. Consider APIs
+[ ] Identify Data Sources: Research reliable sources for historical stock, gold, crypto, and real estate data. Consider APIs
 
-<input type="checkbox" disabled> Data Storage: Design your database schema to efficiently store the historical data. Consider time-series databases if you have very high-frequency data
+[ ] Data Storage: Design your database schema to efficiently store the historical data. Consider time-series databases if you have very high-frequency data
 
-<input type="checkbox" disabled> Data Ingestion Pipeline: Create a process (scripts, serverless functions) to fetch data from your chosen sources and store it in your database. Automate this process to update data regularly (e.g., daily).
+[ ] Data Ingestion Pipeline: Create a process (scripts, serverless functions) to fetch data from your chosen sources and store it in your database. Automate this process to update data regularly (e.g., daily).
 
 ### Phase 2: Back-end Development
 
-<input type="checkbox" disabled> API Implementation: Develop your backend API endpoints to provide the data and perform calculations (portfolio simulation, A/B testing).
+[ ] API Implementation: Develop your backend API endpoints to provide the data and perform calculations (portfolio simulation, A/B testing).
 
-<input type="checkbox" disabled>Business Logic: Implement the core logic for calculating portfolio performance based on historical data and user inputs (investment amounts, time periods).
+[ ] Business Logic: Implement the core logic for calculating portfolio performance based on historical data and user inputs (investment amounts, time periods).
 
-<input type="checkbox" disabled>Authentication and Authorization: Secure your API by implementing user authentication (e.g., JWT) and authorization.
+[ ] Authentication and Authorization: Secure your API by implementing user authentication (e.g., JWT) and authorization.
 
 
 ### Phase 3: Front-end Development
 
-<input type="checkbox" disabled>UI Design: Design the user interface for displaying historical data, inputting investment scenarios, and visualizing portfolio performance. Consider using a UI library (e.g., Material UI, Ant Design).
+[ ] UI Design: Design the user interface for displaying historical data, inputting investment scenarios, and visualizing portfolio performance. Consider using a UI library (e.g., Material UI, Ant Design).
 
-<input type="checkbox" disabled>Component Development: Build reusable React/Vue.js components for different parts of your UI.
+[ ] Component Development: Build reusable React/Vue.js components for different parts of your UI.
 
-<input type="checkbox" disabled>API Integration: Connect your frontend to your backend API to fetch and display data and perform calculations.
+[ ] API Integration: Connect your frontend to your backend API to fetch and display data and perform calculations.
 
 
 ### Phase 4: CI/CD and Deployment
 
-<input type="checkbox" disabled>Set up CI/CD Pipeline: Use a tool like AWS CodePipeline, GitHub Actions, or GitLab CI/CD to automate building, testing, and deploying your application.
+[ ] Set up CI/CD Pipeline: Use a tool like AWS CodePipeline, GitHub Actions, or GitLab CI/CD to automate building, testing, and deploying your application.
 
-<input type="checkbox" disabled>Automated Testing: Write unit tests and integration tests to ensure code quality and catch bugs early.
+[ ] Automated Testing: Write unit tests and integration tests to ensure code quality and catch bugs early.
 
-<input type="checkbox" disabled>Deployment to AWS: Deploy your application to AWS using services like Elastic Beanstalk, EC2, or serverless technologies like Lambda and API Gateway.
+[ ] Deployment to AWS: Deploy your application to AWS using services like Elastic Beanstalk, EC2, or serverless technologies like Lambda and API Gateway.
 
-<input type="checkbox" disabled>Database Hosting: Host your database on your cloud provider.
+[ ] Database Hosting: Host your database on your cloud provider.
 
 ### Phase 5: Scalability and Monitoring
 
-<input type="checkbox" disabled>Scalability Planning: Design your architecture with scalability in mind. Use cloud-native services that can scale automatically (e.g., auto-scaling groups for EC2, serverless functions).
+[ ] Scalability Planning: Design your architecture with scalability in mind. Use cloud-native services that can scale automatically (e.g., auto-scaling groups for EC2, serverless functions).
 
-<input type="checkbox" disabled>Monitoring and Logging: Implement monitoring and logging tools (e.g., CloudWatch) to track application performance, identify errors, and ensure availability.
+[ ] Monitoring and Logging: Implement monitoring and logging tools (e.g., CloudWatch) to track application performance, identify errors, and ensure availability.
 
