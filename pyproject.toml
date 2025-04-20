@@ -13,7 +13,12 @@ dependencies = [
     "confluent-kafka (>=2.10.0,<3.0.0)",
     "vnstock (>=3.2.3,<4.0.0)"
 ]
-package-mode = false
+
+[tool.poetry]
+name = "data_pipeline"
+packages = [
+    { include = "data_pipeline" }
+]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
