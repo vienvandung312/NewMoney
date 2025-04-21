@@ -6,9 +6,9 @@ from data_pipeline.ingestion.producers.vci.common import get_ohlc
 load_dotenv()
 
 if __name__ == "__main__":
-    start_date = 1712275200
-    end_date = 1712361599
-    data = get_ohlc(start_date=start_date, end_date=end_date, symbols="ACB")
+    start_ts = datetime.datetime.now().timestamp() - (60*60*24*7)
+    end_ts = datetime.datetime.now().timestamp()
+    data = get_ohlc(start_ts=start_ts, end_ts=end_ts, symbols="ACB")
 
     conf = {
         'bootstrap.servers':os.getenv("KAKFA_BOOTSTRAP_SERVERS")
