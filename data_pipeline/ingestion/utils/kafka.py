@@ -22,5 +22,6 @@ def produce_to_kafka(topic: str, key: str, value: str) -> None:
         producer = Producer(conf)
         producer.produce(topic, key=key, value=value.encode("utf-8"))
         producer.flush(30)
+        print(f"Produced message to {topic} with key {key}")
     except Exception as e:
         print(f"Error producing to Kafka: {e}")

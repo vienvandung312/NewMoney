@@ -22,6 +22,7 @@ def spoofed_requests(
     Returns:
         requests.Response: The response object from the request.
     """
+
     headers = {
             'Content-Type': 'application/json',
             'X-Mly-Id': str(uuid.uuid4()),
@@ -41,7 +42,10 @@ def spoofed_requests(
 
     try:
         if method.upper() == "GET":
-            response = requests.get(url, headers=headers, timeout=timeout)
+            if data:
+                response = requests.get(url, headers=headers, timeout=timeout)
+            else: 
+                response = requests.get(url, timeout=timeout)
         elif method.upper() == "POST":
             response = requests.post(url, json=data, headers=headers, timeout=timeout)
         else:
