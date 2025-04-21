@@ -42,10 +42,7 @@ def spoofed_requests(
 
     try:
         if method.upper() == "GET":
-            if data:
-                response = requests.get(url, headers=headers, timeout=timeout)
-            else: 
-                response = requests.get(url, timeout=timeout)
+            response = requests.get(url, timeout=timeout, headers=headers)
         elif method.upper() == "POST":
             response = requests.post(url, json=data, headers=headers, timeout=timeout)
         else:
