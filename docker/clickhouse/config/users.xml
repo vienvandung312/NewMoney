@@ -1,0 +1,38 @@
+<clickhouse>
+    <users>
+        <default>
+            <password>password</password>
+            <networks>
+                <ip>::/0</ip>
+            </networks>
+            <profile>default</profile>
+            <quota>default</quota>
+            <allow_databases>
+                <database>default</database>
+            </allow_databases>
+        </default>
+    </users>
+
+    <profiles>
+        <default>
+            <max_memory_usage>10000000000</max_memory_usage>
+            <max_memory_usage_for_user>10000000000</max_memory_usage_for_user>
+            <max_bytes_before_external_group_by>5000000000</max_bytes_before_external_group_by>
+            <max_bytes_before_external_sort>5000000000</max_bytes_before_external_sort>
+            <use_uncompressed_cache>0</use_uncompressed_cache>
+        </default>
+    </profiles>
+
+    <quotas>
+        <default>
+            <interval>
+                <duration>3600</duration>
+                <queries>0</queries>
+                <errors>0</errors>
+                <result_rows>0</result_rows>
+                <read_rows>0</read_rows>
+                <execution_time>0</execution_time>
+            </interval>
+        </default>
+    </quotas>
+</clickhouse>

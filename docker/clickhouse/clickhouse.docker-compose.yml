@@ -1,0 +1,14 @@
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    container_name: clickhouse-server
+    ports:
+      - "8123:8123" # HTTP port
+      - "9000:9000" # Native client port
+      - "9009:9009" # Interserver port
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse
+      - ./config/config.xml:/etc/clickhouse-server/config.d/config.xml
+      - ./config/users.xml:/etc/clickhouse-server/users.d/users.xml
+volumes:
+  clickhouse-data:
