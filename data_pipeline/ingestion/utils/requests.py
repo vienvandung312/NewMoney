@@ -1,6 +1,7 @@
 import requests 
 import uuid
 import random
+import logging
 
 def spoofed_requests(
     url: str,
@@ -50,9 +51,9 @@ def spoofed_requests(
         response.raise_for_status()
         
         if ack:
-            print(f"Request was successful with status code {str(response.status_code)}.")
+            logging.info(f"Request was successful with status code {str(response.status_code)}.")
         return response
     
     except requests.RequestException as e:
-        print(f"Request failed: {e}")
+        logging.error(f"Request failed: {e}")
         return None
