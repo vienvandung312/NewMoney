@@ -15,27 +15,28 @@ logging.basicConfig(
 )
 
 KAFKA_BOOTSTRAP_SERVERS = os.getenv("KAFKA_BOOTSTRAP_SERVERS")
-KAFKA_TOPIC = "dev"
-S3_BUCKET = "dev-s3"
+KAFKA_TOPIC = "gold.btmc.closing.v1"
+S3_BUCKET = "dev-new-money"
 
 def run_producer():
     """Run the API producer"""
     producer_config = {
         'bootstrap.servers': KAFKA_BOOTSTRAP_SERVERS,
-        'client.id': 'api-producer'
+        'client.id': 'btmc.closing.producer',
+
     }
     
     api_url = "http://api.btmc.vn/api/BTMCAPI/getpricebtmc?key={}".format(os.getenv("BTMC_API_KEY"))
     
     producer = ApiProducer(api_url, producer_config, KAFKA_TOPIC)
-    producer.run()
+    producer.run(poll_interval=15)
 
 def run_consumer():
     """Run the S3 consumer"""
     consumer_config = {
         'bootstrap.servers': KAFKA_BOOTSTRAP_SERVERS,
-        'group.id': 's3-consumer-group',
-        'auto.offset.reset': 'earliest'
+        'group.id': 'btmc.closing.consumers',
+        'auto.offset.reset': 'earliest',
     }
     
     consumer = S3Consumer(consumer_config, KAFKA_TOPIC, S3_BUCKET)

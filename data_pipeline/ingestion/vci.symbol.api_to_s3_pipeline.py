@@ -15,26 +15,26 @@ logging.basicConfig(
 )
 
 KAFKA_BOOTSTRAP_SERVERS = os.getenv("KAFKA_BOOTSTRAP_SERVERS")
-KAFKA_TOPIC = "dev"
-S3_BUCKET = "dev-s3"
+KAFKA_TOPIC = "stock.vci.symbols.v1"
+S3_BUCKET = "dev-new-money"
 
 def run_producer():
     """Run the API producer"""
     producer_config = {
         'bootstrap.servers': KAFKA_BOOTSTRAP_SERVERS,
-        'client.id': 'api-producer'
+        'client.id': 'stock.vci.producer'
     }
     
     api_url = os.getenv("VCI_BASE_URL") + "price/symbols/getAll"
     
     producer = ApiProducer(api_url, producer_config, KAFKA_TOPIC)
-    producer.run()
+    producer.run(poll_interval=15)
 
 def run_consumer():
     """Run the S3 consumer"""
     consumer_config = {
         'bootstrap.servers': KAFKA_BOOTSTRAP_SERVERS,
-        'group.id': 's3-consumer-group',
+        'group.id': 'stock.vci.symbols.consumers',
         'auto.offset.reset': 'earliest'
     }
     

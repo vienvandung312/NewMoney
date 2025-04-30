@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import json
+import time 
 import logging
 from confluent_kafka import Consumer, Producer
 from typing import Dict, Any, Callable, Optional, Tuple
@@ -72,6 +73,7 @@ class KafkaProducerBase(KafkaClientBase):
                 if value:
                     self.produce(key, value)
                 iteration += 1
+                time.sleep(poll_interval)
         except KeyboardInterrupt:
             self.logger.info("Producer interrupted")
         finally:
@@ -104,11 +106,7 @@ class KafkaConsumerBase(KafkaClientBase):
     def _default_error_handler(self, error, message=None):
         """Default error handler"""
         self.logger.error(f"Consumer error: {error}, message: {message}")
-    
-    def poll(self, timeout=1.0):
-        """Poll for messages"""
-        self.consumer.poll(timeout)
-    
+        
     def process_message(self, message):
         """Process a message"""
         if message is None:
@@ -143,7 +141,7 @@ class KafkaConsumerBase(KafkaClientBase):
         iteration = 0
         try:
             while max_iterations is None or iteration < max_iterations:
-                message = self.poll(poll_interval)
+                message = self.consumer.poll(poll_interval)
                 self.process_message(message)
                 iteration += 1 if message is not None else 0
         except Exception as e:

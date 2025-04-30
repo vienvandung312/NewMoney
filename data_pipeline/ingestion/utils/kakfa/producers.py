@@ -8,10 +8,11 @@ from data_pipeline.ingestion.utils.requests import spoofed_requests
 class ApiProducer(KafkaProducerBase):
     """Producer that fetches data from API and sends to Kafka"""
     
-    def __init__(self, api_url: str, config: Dict[str, Any], topic: str, payload: Dict[str, Any] = None):
+    def __init__(self, api_url: str, config: Dict[str, Any], topic: str, payload: Dict[str, Any] = None, intervals: int = 1):
         super().__init__(config, topic)
         self.api_url = api_url
         self.payload = payload or {}
+        self.intervals = intervals
         self.logger.info(f"API Producer initialized with URL: {self.api_url}")
     
     def fetch_data_from_api(self) -> Dict[str, Any]:
@@ -34,7 +35,7 @@ class ApiProducer(KafkaProducerBase):
             return None, None
         
         # Generate a unique key for the message
-        key = f"api-data-{uuid.uuid4()}"
+        key = f"{uuid.uuid4()}"
         
         self.logger.info(f"Produced message with key: {key}")
         return key, data
