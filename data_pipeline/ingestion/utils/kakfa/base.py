@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import json
+import time 
 import logging
 from confluent_kafka import Consumer, Producer
 from typing import Dict, Any, Callable, Optional, Tuple
@@ -63,7 +64,7 @@ class KafkaProducerBase(KafkaClientBase):
         self.flush()
         super().close()
     
-    def run(self, poll_interval: int = 5, max_iterations: Optional[int] = None):
+    def run(self, poll_interval: int = 1, max_iterations: Optional[int] = None):
         """Run producer in a loop"""
         iteration = 0
         try:
@@ -71,8 +72,8 @@ class KafkaProducerBase(KafkaClientBase):
                 key, value = self.produce_logic()
                 if value:
                     self.produce(key, value)
-                self.producer.poll(poll_interval)
                 iteration += 1
+                time.sleep(poll_interval)
         except KeyboardInterrupt:
             self.logger.info("Producer interrupted")
         finally:
@@ -105,11 +106,7 @@ class KafkaConsumerBase(KafkaClientBase):
     def _default_error_handler(self, error, message=None):
         """Default error handler"""
         self.logger.error(f"Consumer error: {error}, message: {message}")
-    
-    def poll(self, timeout=1.0):
-        """Poll for messages"""
-        return self.consumer.poll(timeout)
-    
+        
     def process_message(self, message):
         """Process a message"""
         if message is None:
@@ -144,11 +141,11 @@ class KafkaConsumerBase(KafkaClientBase):
         iteration = 0
         try:
             while max_iterations is None or iteration < max_iterations:
-                message = self.poll(poll_interval)
+                message = self.consumer.poll(poll_interval)
                 self.process_message(message)
                 iteration += 1 if message is not None else 0
-        except KeyboardInterrupt:
-            self.logger.info("Consumer interrupted")
+        except Exception as e:
+            self.logger.info(f"Consumer interrupted: {e}")
         finally:
             self.close()
     

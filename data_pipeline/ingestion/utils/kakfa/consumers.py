@@ -22,8 +22,8 @@ class S3Consumer(KafkaConsumerBase):
         
         try:
             # Create S3 object key with timestamp for partitioning
-            timestamp = time.strftime("%Y-%m-%d/%H")
-            s3_key = f"data/{timestamp}/{key}.json"
+            timestamp = time.strftime("date=%Y-%m-%d/hour=%H")
+            s3_key = f"{self.topic}/{timestamp}/{key}.json"
             
             # Upload to S3
             self.s3_client.put_object(
@@ -36,3 +36,4 @@ class S3Consumer(KafkaConsumerBase):
             self.logger.info(f"Successfully wrote message to S3: {s3_key}")
         except Exception as e:
             self.logger.error(f"Failed to write to S3: {e}")
+            
