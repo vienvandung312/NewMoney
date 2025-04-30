@@ -63,7 +63,7 @@ class KafkaProducerBase(KafkaClientBase):
         self.flush()
         super().close()
     
-    def run(self, poll_interval: int = 5, max_iterations: Optional[int] = None):
+    def run(self, poll_interval: int = 1, max_iterations: Optional[int] = None):
         """Run producer in a loop"""
         iteration = 0
         try:
@@ -71,7 +71,6 @@ class KafkaProducerBase(KafkaClientBase):
                 key, value = self.produce_logic()
                 if value:
                     self.produce(key, value)
-                self.producer.poll(poll_interval)
                 iteration += 1
         except KeyboardInterrupt:
             self.logger.info("Producer interrupted")
@@ -108,7 +107,7 @@ class KafkaConsumerBase(KafkaClientBase):
     
     def poll(self, timeout=1.0):
         """Poll for messages"""
-        return self.consumer.poll(timeout)
+        self.consumer.poll(timeout)
     
     def process_message(self, message):
         """Process a message"""
@@ -147,8 +146,8 @@ class KafkaConsumerBase(KafkaClientBase):
                 message = self.poll(poll_interval)
                 self.process_message(message)
                 iteration += 1 if message is not None else 0
-        except KeyboardInterrupt:
-            self.logger.info("Consumer interrupted")
+        except Exception as e:
+            self.logger.info(f"Consumer interrupted: {e}")
         finally:
             self.close()
     
