@@ -15,31 +15,31 @@ logging.basicConfig(
 )
 
 KAFKA_BOOTSTRAP_SERVERS = os.getenv("KAFKA_BOOTSTRAP_SERVERS")
-KAFKA_TOPIC = "dev"
-S3_BUCKET = "dev-s3"
+KAFKA_TOPIC = "stock.vci.ohlc.v1"
+S3_BUCKET = "dev-new-money"
 
-def run_producer():
+def run_producer(symbol:str, from_ts: int, to_ts: int):
     """Run the API producer"""
     producer_config = {
         'bootstrap.servers': KAFKA_BOOTSTRAP_SERVERS,
-        'client.id': 'api-producer'
+        'client.id': 'stock.vci.producer'
     }
     
     api_url = os.getenv("VCI_BASE_URL") + "chart/OHLCChart/gap"
     payload = {
         "timeFrame": "ONE_HOUR",
-        "symbols": ["AAPL"],
-        "from": 1690000000, # From 2023-07-20 00:00:00
-        "to": 1690000000 + (60*60*24*7)
+        "symbols": [symbol],
+        "from": from_ts,
+        "to": to_ts
     }
     producer = ApiProducer(api_url, producer_config, KAFKA_TOPIC,payload)
-    producer.run()
+    producer.run(poll_interval=60*15)
 
-def run_consumer():
+def run_consumer(symbol: str):
     """Run the S3 consumer"""
     consumer_config = {
         'bootstrap.servers': KAFKA_BOOTSTRAP_SERVERS,
-        'group.id': 's3-consumer-group',
+        'group.id': f'stock.vci.ohlc.{symbol}.consumers',
         'auto.offset.reset': 'earliest'
     }
     
@@ -48,8 +48,10 @@ def run_consumer():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run Kafka API to S3 pipeline')
-    parser.add_argument('--mode', choices=['producer', 'consumer', 'both'], 
-                        default='both', help='Which component to run')
+    parser.add_argument('--mode', choices=['producer', 'consumer', 'both'], default='both', help='Which component to run')
+    parser.add_argument('--symbol', required=True)
+    parser.add_argument('--from', required=True)
+    parser.add_argument('--to', required=True)
     
     args = parser.parse_args()
     
